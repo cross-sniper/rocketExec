@@ -1,1 +1,1 @@
-#inlcude "raylib/raylib.cpp"
+#include "raylib/raylib.cpp"

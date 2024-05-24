@@ -155,5 +155,24 @@ static int lua_get_fps(lua_State *L) {
     return 1;
 }
 
+static int lua_is_mouse_button_down(lua_State *L) {
+  int key = lua_tonumber(L, 1);
+  lua_pushboolean(L, IsMouseButtonPressed(key));
+  return 1;
+}
+
+static int lua_is_mouse_button_released(lua_State *L) {
+  int key = lua_tonumber(L, 1);
+  lua_pushboolean(L, IsMouseButtonReleased(key));
+  return 1;
+}
+
+static int lua_is_mouse_button_pressed(lua_State *L) {
+  int key = lua_tonumber(L, 1);
+  lua_pushboolean(L, IsMouseButtonPressed(key));
+  return 1;
+}
+
+
 
 #include "ray-keys.cpp"

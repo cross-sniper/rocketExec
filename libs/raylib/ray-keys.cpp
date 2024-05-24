@@ -127,5 +127,13 @@ static int init_raylib_keys(lua_State *L)
     addRaylibKeyConstant(L, "KEY_VOLUME_UP", KEY_VOLUME_UP);
     addRaylibKeyConstant(L, "KEY_VOLUME_DOWN", KEY_VOLUME_DOWN);
 
+    // mouse buttons
+    addRaylibKeyConstant(L, "MOUSE_BUTTON_LEFT", MOUSE_BUTTON_LEFT);
+    addRaylibKeyConstant(L, "MOUSE_BUTTON_RIGHT", MOUSE_BUTTON_RIGHT);
+    addRaylibKeyConstant(L, "MOUSE_BUTTON_MIDDLE", MOUSE_BUTTON_MIDDLE);
+    addRaylibKeyConstant(L, "MOUSE_BUTTON_SIDE", MOUSE_BUTTON_SIDE);
+    addRaylibKeyConstant(L, "MOUSE_BUTTON_EXTRA", MOUSE_BUTTON_EXTRA);
+    addRaylibKeyConstant(L, "MOUSE_BUTTON_FORWARD", MOUSE_BUTTON_FORWARD);
+    addRaylibKeyConstant(L, "MOUSE_BUTTON_BACK", MOUSE_BUTTON_BACK);
     return 1;
 }

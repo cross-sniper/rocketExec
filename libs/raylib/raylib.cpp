@@ -1,7 +1,7 @@
 #include <lua.h>
 #include <raylib.h>
 #include <lua.hpp>
-#include "../ffi.hpp"
+#include "../../ffi.hpp"
 #include "ray-init.cpp"
 #include <iostream>
 
@@ -28,6 +28,9 @@ static luaL_Reg funcs[] = {
 	{ "GetFrameTime", lua_get_frame_time },
 	{ "GetTime", lua_get_time },
 	{ "GetFPS", lua_get_fps },
+	{ "IsMouseButtonDown", lua_is_mouse_button_down },
+	{ "IsMouseButtonPressed", lua_is_mouse_button_pressed },
+	{ "IsMouseButtonReleased", lua_is_mouse_button_released },
 	{ NULL,NULL}
 };
 
