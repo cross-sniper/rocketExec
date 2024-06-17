@@ -11,6 +11,13 @@ static int lua_is_key_down(lua_State *L) {
   lua_pushboolean(L, IsKeyDown(key));
   return 1;
 }
+
+static int lua_is_key_pressed(lua_State *L) {
+  int key = lua_tonumber(L, 1);
+  lua_pushboolean(L, IsKeyPressed(key));
+  return 1;
+}
+
 static int lua_draw_fps(lua_State *L) {
   int x, y;
   x = lua_tonumber(L, 1);
@@ -137,6 +144,16 @@ static int lua_get_mouse_position(lua_State *L) {
   lua_setfield(L, -2, "x");
   lua_pushinteger(L, mouse_pos.y);
   lua_setfield(L, -2, "y");
+  return 1;
+}
+
+int getMouseX(lua_State *L) {
+  lua_pushinteger(L, GetMouseX());
+  return 1;
+}
+
+int getMouseY(lua_State *L) {
+  lua_pushinteger(L, GetMouseY());
   return 1;
 }
 

@@ -1,4 +1,3 @@
-load("os")
 
 // Define the function to execute shell commands
 function runCmd(cmd) {

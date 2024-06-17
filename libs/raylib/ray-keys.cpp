@@ -8,6 +8,8 @@ static int addRaylibKeyConstant(lua_State *L, const char *keyName,
   lua_setglobal(L, keyName);
   return 1;
 }
+void init_raylib_gamepad(lua_State* ctx);
+
 static int init_raylib_keys(lua_State *L)
 {
     // Alphanumeric keys
@@ -135,5 +137,37 @@ static int init_raylib_keys(lua_State *L)
     addRaylibKeyConstant(L, "MOUSE_BUTTON_EXTRA", MOUSE_BUTTON_EXTRA);
     addRaylibKeyConstant(L, "MOUSE_BUTTON_FORWARD", MOUSE_BUTTON_FORWARD);
     addRaylibKeyConstant(L, "MOUSE_BUTTON_BACK", MOUSE_BUTTON_BACK);
+    init_raylib_gamepad(L);
     return 1;
+}
+
+void init_raylib_gamepad(lua_State* ctx){
+    addRaylibKeyConstant(ctx, "GAMEPAD_BUTTON_UNKNOWN", GAMEPAD_BUTTON_UNKNOWN);
+    addRaylibKeyConstant(ctx, "GAMEPAD_BUTTON_LEFT_FACE_UP", GAMEPAD_BUTTON_LEFT_FACE_UP);
+    addRaylibKeyConstant(ctx, "GAMEPAD_BUTTON_LEFT_FACE_RIGHT", GAMEPAD_BUTTON_LEFT_FACE_RIGHT);
+    addRaylibKeyConstant(ctx, "GAMEPAD_BUTTON_LEFT_FACE_DOWN", GAMEPAD_BUTTON_LEFT_FACE_DOWN);
+    addRaylibKeyConstant(ctx, "GAMEPAD_BUTTON_LEFT_FACE_LEFT", GAMEPAD_BUTTON_LEFT_FACE_LEFT);
+    addRaylibKeyConstant(ctx, "GAMEPAD_BUTTON_RIGHT_FACE_UP", GAMEPAD_BUTTON_RIGHT_FACE_UP);
+    addRaylibKeyConstant(ctx, "GAMEPAD_BUTTON_RIGHT_FACE_RIGHT", GAMEPAD_BUTTON_RIGHT_FACE_RIGHT);
+    addRaylibKeyConstant(ctx, "GAMEPAD_BUTTON_RIGHT_FACE_DOWN", GAMEPAD_BUTTON_RIGHT_FACE_DOWN);
+    addRaylibKeyConstant(ctx, "GAMEPAD_BUTTON_RIGHT_FACE_LEFT", GAMEPAD_BUTTON_RIGHT_FACE_LEFT);
+    addRaylibKeyConstant(ctx, "GAMEPAD_BUTTON_LEFT_TRIGGER_1", GAMEPAD_BUTTON_LEFT_TRIGGER_1);
+    addRaylibKeyConstant(ctx, "GAMEPAD_BUTTON_LEFT_TRIGGER_2", GAMEPAD_BUTTON_LEFT_TRIGGER_2);
+    addRaylibKeyConstant(ctx, "GAMEPAD_BUTTON_RIGHT_TRIGGER_1", GAMEPAD_BUTTON_RIGHT_TRIGGER_1);
+    addRaylibKeyConstant(ctx, "GAMEPAD_BUTTON_RIGHT_TRIGGER_2", GAMEPAD_BUTTON_RIGHT_TRIGGER_2);
+    addRaylibKeyConstant(ctx, "GAMEPAD_BUTTON_MIDDLE_LEFT", GAMEPAD_BUTTON_MIDDLE_LEFT);
+    addRaylibKeyConstant(ctx, "GAMEPAD_BUTTON_MIDDLE", GAMEPAD_BUTTON_MIDDLE);
+    addRaylibKeyConstant(ctx, "GAMEPAD_BUTTON_MIDDLE_RIGHT", GAMEPAD_BUTTON_MIDDLE_RIGHT);
+    addRaylibKeyConstant(ctx, "GAMEPAD_BUTTON_LEFT_THUMB", GAMEPAD_BUTTON_LEFT_THUMB);
+    addRaylibKeyConstant(ctx, "GAMEPAD_BUTTON_RIGHT_THUMB", GAMEPAD_BUTTON_RIGHT_THUMB);
+
+    addRaylibKeyConstant(ctx, "GAMEPAD_AXIS_LEFT_X", GAMEPAD_AXIS_LEFT_X);
+    addRaylibKeyConstant(ctx, "GAMEPAD_AXIS_LEFT_Y", GAMEPAD_AXIS_LEFT_Y);
+    addRaylibKeyConstant(ctx, "GAMEPAD_AXIS_RIGHT_X", GAMEPAD_AXIS_RIGHT_X);
+    addRaylibKeyConstant(ctx, "GAMEPAD_AXIS_RIGHT_Y", GAMEPAD_AXIS_RIGHT_Y);
+
+    addRaylibKeyConstant(ctx, "GAMEPAD_AXIS_LEFT_TRIGGER", GAMEPAD_AXIS_LEFT_TRIGGER);
+    addRaylibKeyConstant(ctx, "GAMEPAD_AXIS_RIGHT_TRIGGER", GAMEPAD_AXIS_RIGHT_TRIGGER);
+
+
 }

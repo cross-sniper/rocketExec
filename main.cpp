@@ -2,6 +2,7 @@
 #include <lua.hpp>
 #include <stdio.h>
 #include "ffi.hpp"
+#include "funcs.cpp"
 #include "libs/raylib.cpp"
 
 static int loadLib(lua_State *L) {
@@ -45,6 +46,8 @@ void rocketFunctions(lua_State* L) {
 	lua_setglobal(L, "ffi");
 	
 	initRaylib(L);
+	initRaylibCamera(L);
+	initFuncs(L);
 }
 
 int main(int argc, char const *argv[]) {
