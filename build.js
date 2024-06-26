@@ -43,6 +43,10 @@ new Target("rocket example lib", ["rocket executable"], function () {
    	print("Compiling example libs...");
     runCmd("g++ libs/example.cpp -o bin/example.so -shared -fPIC -llua -llua++");
 }, "compiles the example lib for the rocket executable");
+new Target("raylib.so", [], function () {
+   	print("Compiling raylib.so...");
+    runCmd("g++ libs/raylib.cpp -o bin/raylib.so -shared -fPIC -llua -llua++ -lraylib");
+}, "compiles the raylib.so that you can use with default lua");
 
 new Target("all",["rocket executable", "rocket example lib"],function(){},"builds everything")
 new Target("install",["all"],function(){
