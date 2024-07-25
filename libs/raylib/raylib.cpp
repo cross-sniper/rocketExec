@@ -3,6 +3,9 @@
 #include <lua.hpp>
 #include "../../ffi.hpp"
 #include "ray-init.cpp"
+#include "ray-img.cpp"
+#include "ray-cam/init.cpp"
+
 #include <iostream>
 
 
@@ -37,7 +40,7 @@ static luaL_Reg funcs[] = {
 	{ NULL,NULL}
 };
 
-extern "C" void initRaylib(lua_State *L) {
+extern "C" int luaopen_raylib(lua_State *L) {
     // Iterate over the functions and add them to the table
 	for (int i = 0; funcs[i].name; i++) {
 		lua_pushcfunction(L, funcs[i].func);
@@ -46,5 +49,8 @@ extern "C" void initRaylib(lua_State *L) {
     lua_init_colors(L);
 
     init_raylib_keys(L);
+    init_raylib_img(L);
+	initRaylibCamera(L);
 
+	return 1;
 }

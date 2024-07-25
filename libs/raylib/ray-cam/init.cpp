@@ -1,6 +1,6 @@
 #include <lua.hpp>
 #include <raylib.h>
-#include "../../ffi.hpp"
+#include "../../../ffi.hpp"
 #define LUA lua_State *ctx
 Camera2D globalCam2d;
 Camera3D globalCam3d;
