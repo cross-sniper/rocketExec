@@ -10,7 +10,7 @@ local function runCmd(cmd)
 end
 
 local function fileModified(filename)
-    local f = io.popen("stat -c %Y " .. filename)
+    local f = io.popen("stat -c %Y " .. filename .. " 2>/dev/null")
     local modifiedTime = f:read("*a")
     f:close()
     return tonumber(modifiedTime)
@@ -19,7 +19,10 @@ end
 local function needsRebuild(source, target)
     local sourceTime = fileModified(source)
     local targetTime = fileModified(target)
-    return sourceTime and targetTime and sourceTime > targetTime
+    if sourceTime == nil or targetTime == nil then
+        return true
+    end
+    return sourceTime > targetTime
 end
 
 local function isDirectory(path)
@@ -34,7 +37,7 @@ local function getFilesRecursively(dir)
     local files = {}
     
     local function traverseDirectory(currentDir)
-        local handle = io.popen("ls -A1 " .. currentDir)
+        local handle = io.popen("ls -A1 " .. currentDir .. " 2>/dev/null")
         local listing = handle:read("*a")
         handle:close()
         
@@ -54,8 +57,12 @@ end
 
 local function directoryNeedsRebuild(sourceDir, target)
     local targetTime = fileModified(target)
+    if targetTime == nil then
+        return true
+    end
     for _, file in ipairs(getFilesRecursively(sourceDir)) do
-        if fileModified(file) > targetTime then
+        local fileTime = fileModified(file)
+        if fileTime and fileTime > targetTime then
             return true
         end
     end
@@ -69,7 +76,7 @@ local function buildStr(target)
     local selectedTarget = ""
     for argId = 1, #target do
         selectedTarget = selectedTarget .. target[argId]
-        if not (argId + 1) == #target then selectedTarget = selectedTarget .. " " end
+        if argId < #target then selectedTarget = selectedTarget .. " " end
     end
     return selectedTarget
 end
@@ -103,24 +110,24 @@ local function Target(name, dependsOn, fn, description)
 end
 
 -- Define targets
-Target("rocket executable", {"fs.so", "raylib.so"}, function()
+Target("rocket executable", {"fs.so", "raylib.so","curses.so"}, function()
     if needsRebuild("main.cpp", "bin/rocket") then
         print("Compiling rocketExec...")
-        runCmd("g++ main.cpp -o bin/rocket -llua -llua++ -lraylib")
+        runCmd("zig c++ main.cpp -o bin/rocket -llua -llua++ -lraylib")
     end
 end, "rocketExec, or rocket, is a C++ executable that wraps functionality on top of Lua")
 
 Target("raylib.so", {}, function()
     if directoryNeedsRebuild("libs/raylib/", "bin/raylib.so") then
         print("Compiling raylib.so...")
-        runCmd("g++ libs/raylib/raylib.cpp -o bin/raylib.so -shared -fPIC -llua -llua++ -lraylib")
+        runCmd("zig c++ libs/raylib/raylib.cpp -o bin/raylib.so -shared -fPIC -llua -llua++ -lraylib")
     end
 end, "Compiles the raylib.so that you can use with default Lua")
 
 Target("fs.so", {}, function()
     if needsRebuild("libs/fs/fs.cpp", "bin/fs.so") then
         print("Compiling fs.so...")
-        runCmd("g++ libs/fs/fs.cpp -o bin/fs.so -shared -fPIC -llua -llua++")
+        runCmd("zig c++ libs/fs/fs.cpp -o bin/fs.so -shared -fPIC -llua -llua++")
     end
 end, "Compiles the fs.so that you can use with default Lua")
 
@@ -129,9 +136,17 @@ Target("all", {"rocket executable"}, function()
 end, "Builds everything")
 
 Target("install", {"all"}, function()
-    runCmd("mkdir -p ~/bin")
-    runCmd("cp bin/rocket ~/bin/rocket")
+    if needsRebuild("bin/rocket", "~/bin/rocket") then
+        runCmd("mkdir -p ~/bin")
+        runCmd("cp bin/rocket ~/bin/rocket")
+    end
 end, "Installs rocketExec as rocket")
+
+Target("curses.so", {},function()
+    if directoryNeedsRebuild("libs/ncurses","bin/curses.so") then
+        runCmd("zig c++ libs/ncurses/curses.cpp -o bin/curses.so -shared -llua -llua++ -lncurses")
+    end
+end, "ncurses module")
 
 Target("clean", {}, function()
     print("Cleaning build artifacts...")
