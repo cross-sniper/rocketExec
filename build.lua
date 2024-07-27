@@ -82,6 +82,8 @@ local function buildStr(target)
 end
 
 local function build(selectedTarget)
+	if not isDirectory("bin") then runCmd("mkdir bin") end
+
     for _, target in ipairs(targets) do
         if target.name == selectedTarget then
             target.exec()
